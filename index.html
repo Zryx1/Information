@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Grup 🌈</title>
+    <title>Limitlest Discord</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,9 +14,9 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: linear-gradient(-45deg, #5865f2, #4752c4, #667eea, #99a3ff);
             background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
+            animation: discordGradient 8s ease infinite;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -25,7 +25,7 @@
             position: relative;
         }
 
-        @keyframes gradientShift {
+        @keyframes discordGradient {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
@@ -38,117 +38,115 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.5), transparent),
-                radial-gradient(1px 1px at 80% 80%, rgba(255,255,255,0.3), transparent),
-                radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.4), transparent);
-            background-repeat: repeat;
-            background-size: 100px 100px;
-            animation: floatLight 25s linear infinite;
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2), transparent 50%);
+            animation: floatLight 20s linear infinite;
             pointer-events: none;
             z-index: 0;
         }
 
         @keyframes floatLight {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-20px) rotate(180deg); }
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-30px); }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(15px);
             border-radius: 25px;
-            padding: 2.5rem 2rem;
+            padding: 3rem 2rem;
             max-width: 450px;
             width: 90%;
             text-align: center;
             box-shadow: 
-                0 20px 40px rgba(0,0,0,0.15),
-                0 0 0 1px rgba(255,255,255,0.8);
+                0 25px 50px rgba(88, 101, 242, 0.3),
+                0 0 0 1px rgba(255,255,255,0.9);
             position: relative;
             z-index: 1;
-            animation: fadeInUp 0.8s ease-out;
-            border: 1px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 1s ease-out;
+            border: 2px solid rgba(88, 101, 242, 0.2);
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .logo-container {
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .logo-container:hover {
-            transform: scale(1.05);
+            transform: scale(1.08) rotate(2deg);
         }
 
         .custom-logo-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
             object-fit: cover;
-            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
-            border: 3px solid rgba(255,255,255,0.8);
-            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(88,101,242,0.4);
+            border: 4px solid rgba(255,255,255,0.9);
+            transition: all 0.4s ease;
         }
 
         .custom-logo-img:hover {
-            transform: rotate(5deg) scale(1.1);
-            box-shadow: 0 15px 35px rgba(102,126,234,0.6);
+            transform: scale(1.15) rotate(8deg);
+            box-shadow: 0 20px 45px rgba(88,101,242,0.6);
         }
 
-        .custom-logo-text {
-            font-size: 3.8rem;
-            filter: drop-shadow(0 5px 15px rgba(102,126,234,0.4));
-            transition: all 0.3s ease;
-            line-height: 1;
+        .discord-logo {
+            font-size: 4.2rem;
+            background: linear-gradient(135deg, #5865f2, #7289da, #99aab5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 8px 25px rgba(88,101,242,0.5));
+            margin-top: 0.5rem;
+            animation: discordGlow 2s ease-in-out infinite alternate;
         }
 
-        .custom-logo-text:hover {
-            transform: scale(1.1) rotate(5deg);
+        @keyframes discordGlow {
+            from { filter: drop-shadow(0 8px 25px rgba(88,101,242,0.5)); }
+            to { filter: drop-shadow(0 8px 35px rgba(88,101,242,0.8)); }
         }
 
         h1 {
-            color: #333;
-            font-size: 2rem;
+            color: #2c2f33;
+            font-size: 2.3rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #5865f2, #7289da);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .subtitle {
-            color: #555;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            line-height: 1.5;
-        }
-
-        .platforms {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            font-weight: 500;
         }
 
         .platform {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px solid rgba(102, 126, 234, 0.2);
-            border-radius: 15px;
-            padding: 1.2rem;
-            color: #333;
+            gap: 1.2rem;
+            background: linear-gradient(135deg, rgba(88,101,242,0.1), rgba(114,137,218,0.1));
+            border: 3px solid rgba(88, 101, 242, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem 1.8rem;
+            color: #2c2f33;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(88,101,242,0.2);
         }
 
         .platform::before {
@@ -158,8 +156,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            transition: left 0.6s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.7s;
         }
 
         .platform:hover::before {
@@ -167,163 +165,73 @@
         }
 
         .platform:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.25);
-            border-color: rgba(102, 126, 234, 0.4);
-            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(88,101,242,0.4);
+            border-color: rgba(88, 101, 242, 0.6);
+            background: linear-gradient(135deg, rgba(88,101,242,0.15), rgba(114,137,218,0.15));
         }
 
         .platform-icon {
-            font-size: 1.8rem;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            font-size: 2.2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            background: linear-gradient(135deg, #5865f2, #4752c4);
+            color: white;
+            box-shadow: 0 8px 20px rgba(88,101,242,0.4);
         }
 
-        .platform.discord .platform-icon { background: linear-gradient(135deg, #5865f2, #4752c4); color: white; }
-        .platform.whatsapp .platform-icon { background: linear-gradient(135deg, #25d366, #128c7e); color: white; }
-        .platform.telegram .platform-icon { background: linear-gradient(135deg, #0088cc, #006db3); color: white; }
+        .platform-info {
+            flex: 1;
+            text-align: left;
+        }
 
-        .platform-info { flex: 1; text-align: left; }
-        .platform-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
-        .platform-link { font-size: 0.9rem; color: #666; word-break: break-all; }
+        .platform-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: #5865f2;
+        }
 
-        .no-data {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid rgba(255, 193, 7, 0.4);
-            color: #856404;
-            padding: 2rem;
-            border-radius: 15px;
+        .platform-link {
+            font-size: 0.95rem;
+            color: #7289da;
+            word-break: break-all;
             font-weight: 500;
-            backdrop-filter: blur(5px);
         }
 
         @media (max-width: 480px) {
-            .container { padding: 2rem 1.5rem; margin: 1rem; }
-            h1 { font-size: 1.7rem; }
-            .custom-logo-img { width: 70px; height: 70px; }
-            .custom-logo-text { font-size: 3.2rem; }
+            .container { padding: 2.5rem 1.5rem; margin: 1rem; }
+            h1 { font-size: 2rem; }
+            .custom-logo-img { width: 75px; height: 75px; }
+            .discord-logo { font-size: 3.5rem; }
+            .platform { padding: 1.3rem 1.5rem; gap: 1rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo-container" id="logoContainer">🚀</div>
-        <h1 id="title">Loading...</h1>
-        <p class="subtitle" id="subtitle">Memuat konfigurasi...</p>
-        <div class="platforms" id="platforms">Memuat grup...</div>
+        <div class="logo-container">
+            <!-- Custom Logo akan dimuat dari Data.txt -->
+            <img id="customLogo" class="custom-logo-img" src="https://via.placeholder.com/90x90/5865f2/ffffff?text=LOGO" alt="Limitlest">
+            <div class="discord-logo">𝐃𝐢𝐬𝐜𝐨𝐫𝐝</div>
+        </div>
+        <h1>Limitlest</h1>
+        <p class="subtitle">Server Discord paling seru untuk ngobrol dan gaming!</p>
+        
+        <a href="https://discord.gg/2h8Ut7mHJ" target="_blank" class="platform discord" rel="noopener noreferrer">
+            <div class="platform-icon">
+                <i class="fab fa-discord"></i>
+            </div>
+            <div class="platform-info">
+                <div class="platform-name">Limitlest</div>
+                <div class="platform-link">discord.gg/2h8Ut7mHJ</div>
+            </div>
+        </a>
     </div>
-
-    <script>
-        async function loadData() {
-            try {
-                const response = await fetch('Data.txt');
-                const text = await response.text();
-                const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-                
-                if (lines.length === 0) return showNoData();
-                
-                // Parse format: KEY:(value)|KEY:(value)
-                const parseLine = (line) => {
-                    const data = {};
-                    line.split('|').forEach(part => {
-                        const match = part.match(/([A-Z]+):\$([^)]+)\$/i);
-                        if (match) {
-                            data[match[1].toLowerCase()] = match[2].trim();
-                        }
-                    });
-                    return data;
-                };
-                
-                // Konfigurasi (baris pertama)
-                const config = parseLine(lines[0]);
-                document.getElementById('title').textContent = config.title || 'Discord Grup';
-                document.getElementById('subtitle').textContent = config.subtitle || 'Join sekarang!';
-                
-                // Logo handling
-                const logoContainer = document.getElementById('logoContainer');
-                logoContainer.innerHTML = '';
-                
-                let logoContent = config.logo || config.text || '🚀';
-                if (logoContent.startsWith('http')) {
-                    // Gambar dari Catbox/Imgur
-                    const img = document.createElement('img');
-                    img.src = logoContent;
-                    img.className = 'custom-logo-img';
-                    img.alt = 'Logo';
-                    img.loading = 'lazy';
-                    img.onerror = () => {
-                        logoContainer.innerHTML = `<div class="custom-logo-text">${config.text || '🚀'}</div>`;
-                    };
-                    logoContainer.appendChild(img);
-                } else {
-                    // Emoji/Text
-                    const textLogo = document.createElement('div');
-                    textLogo.className = 'custom-logo-text';
-                    textLogo.textContent = logoContent;
-                    logoContainer.appendChild(textLogo);
-                }
-                
-                // Platforms (baris 2+)
-                const platformsDiv = document.getElementById('platforms');
-                platformsDiv.innerHTML = '';
-                
-                for (let i = 1; i < lines.length; i++) {
-                    const parts = lines[i].split(':');
-                    if (parts.length >= 2) {
-                        const platform = parts[0].trim().toLowerCase();
-                        let link = parts[1].replace(/[()]/g, '').trim();
-                        const name = parts[2]?.replace(/[()]/g, '').trim() || platform;
-                        
-                        // Fix link jika ada ()
-                        if (link.includes('(') || link.includes(')')) {
-                            link = link.match(/\$([^)]+)\$/)?.[1] || link;
-                        }
-                        
-                        const platformDiv = document.createElement('a');
-                        platformDiv.href = link;
-                        platformDiv.target = '_blank';
-                        platformDiv.rel = 'noopener noreferrer';
-                        platformDiv.className = `platform ${platform}`;
-                        platformDiv.innerHTML = `
-                            <div class="platform-icon">
-                                <i class="${getIcon(platform)}"></i>
-                            </div>
-                            <div class="platform-info">
-                                <div class="platform-name">${name}</div>
-                                <div class="platform-link">${link}</div>
-                            </div>
-                        `;
-                        platformsDiv.appendChild(platformDiv);
-                    }
-                }
-                
-            } catch (error) {
-                showNoData();
-            }
-        }
-
-        function getIcon(platform) {
-            const icons = {
-                'discord': 'fab fa-discord',
-                'whatsapp': 'fab fa-whatsapp',
-                'telegram': 'fab fa-telegram-plane',
-                'wa': 'fab fa-whatsapp',
-                'minecraft': 'fab fa-cubes'
-            };
-            return icons[platform] || 'fas fa-link';
-        }
-
-        function showNoData() {
-            document.getElementById('platforms').innerHTML = 
-                '<div class="no-data">📢 Data grup belum tersedia<br><small>Hubungi admin</small></div>';
-        }
-
-        window.addEventListener('load', loadData);
-    </script>
 </body>
 </html>
