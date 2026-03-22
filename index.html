@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Grup </title>
+    <title>Discord Grup 🌈</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -71,14 +71,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo-container {
@@ -190,37 +184,13 @@
             flex-shrink: 0;
         }
 
-        .platform.discord .platform-icon {
-            background: linear-gradient(135deg, #5865f2, #4752c4);
-            color: white;
-        }
+        .platform.discord .platform-icon { background: linear-gradient(135deg, #5865f2, #4752c4); color: white; }
+        .platform.whatsapp .platform-icon { background: linear-gradient(135deg, #25d366, #128c7e); color: white; }
+        .platform.telegram .platform-icon { background: linear-gradient(135deg, #0088cc, #006db3); color: white; }
 
-        .platform.whatsapp .platform-icon {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white;
-        }
-
-        .platform.telegram .platform-icon {
-            background: linear-gradient(135deg, #0088cc, #006db3);
-            color: white;
-        }
-
-        .platform-info {
-            flex: 1;
-            text-align: left;
-        }
-
-        .platform-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-        }
-
-        .platform-link {
-            font-size: 0.9rem;
-            color: #666;
-            word-break: break-all;
-        }
+        .platform-info { flex: 1; text-align: left; }
+        .platform-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .platform-link { font-size: 0.9rem; color: #666; word-break: break-all; }
 
         .no-data {
             background: rgba(255, 193, 7, 0.2);
@@ -241,105 +211,100 @@
     </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <div class="logo-container" id="logoContainer">
-            <!-- Logo akan dimuat dari Data.txt -->
-        </div>
-        <h1 id="title">Web Simple By Zeff</h1>
-        <p class="subtitle" id="subtitle">Mau Join Grup Ngobrol Limitlest Kami?</p>
-        
-        <div class="platforms" id="platforms">
-            <!-- Loading... -->
-        </div>
+    <div class="container">
+        <div class="logo-container" id="logoContainer">🚀</div>
+        <h1 id="title">Loading...</h1>
+        <p class="subtitle" id="subtitle">Memuat konfigurasi...</p>
+        <div class="platforms" id="platforms">Memuat grup...</div>
     </div>
 
     <script>
         async function loadData() {
-            const platformsDiv = document.getElementById('platforms');
-            const logoContainer = document.getElementById('logoContainer');
-            const titleEl = document.getElementById('title');
-            const subtitleEl = document.getElementById('subtitle');
-            
-            platformsDiv.innerHTML = '<div style="color:#999;padding:1.5rem;">Memuat data...</div>';
-            
             try {
                 const response = await fetch('Data.txt');
-                if (response.ok) {
-                    const text = await response.text().trim();
-                    const lines = text.split('\n').filter(line => line.trim());
-                    
-                    if (lines.length > 0) {
-                        // Parse baris pertama: LOGO_URL|LOGO_TEXT|TITLE|SUBTITLE
-                        const firstLine = lines[0].split('|');
-                        if (firstLine.length >= 3) {
-                            const logoUrl = firstLine[0].trim();
-                            const logoText = firstLine[1].trim();
-                            titleEl.textContent = firstLine[2].trim();
-                            subtitleEl.textContent = firstLine[3]?.trim() || 'Mau join grup ngobrol seru kami?';
-                            
-                            // Buat logo (image atau text)
-                            logoContainer.innerHTML = '';
-                            if (logoUrl.startsWith('http')) {
-                                // Logo image
-                                const img = document.createElement('img');
-                                img.src = logoUrl;
-                                img.className = 'custom-logo-img';
-                                img.alt = 'Logo';
-                                img.onerror = () => {
-                                    // Fallback ke text jika image gagal load
-                                    logoContainer.innerHTML = `<div class="custom-logo-text">${logoText}</div>`;
-                                };
-                                logoContainer.appendChild(img);
-                            } else {
-                                // Logo text/emoji
-                                const textLogo = document.createElement('div');
-                                textLogo.className = 'custom-logo-text';
-                                textLogo.textContent = logoText;
-                                logoContainer.appendChild(textLogo);
-                            }
+                const text = await response.text();
+                const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+                
+                if (lines.length === 0) return showNoData();
+                
+                // Parse format: KEY:(value)|KEY:(value)
+                const parseLine = (line) => {
+                    const data = {};
+                    line.split('|').forEach(part => {
+                        const match = part.match(/([A-Z]+):\$([^)]+)\$/i);
+                        if (match) {
+                            data[match[1].toLowerCase()] = match[2].trim();
+                        }
+                    });
+                    return data;
+                };
+                
+                // Konfigurasi (baris pertama)
+                const config = parseLine(lines[0]);
+                document.getElementById('title').textContent = config.title || 'Discord Grup';
+                document.getElementById('subtitle').textContent = config.subtitle || 'Join sekarang!';
+                
+                // Logo handling
+                const logoContainer = document.getElementById('logoContainer');
+                logoContainer.innerHTML = '';
+                
+                let logoContent = config.logo || config.text || '🚀';
+                if (logoContent.startsWith('http')) {
+                    // Gambar dari Catbox/Imgur
+                    const img = document.createElement('img');
+                    img.src = logoContent;
+                    img.className = 'custom-logo-img';
+                    img.alt = 'Logo';
+                    img.loading = 'lazy';
+                    img.onerror = () => {
+                        logoContainer.innerHTML = `<div class="custom-logo-text">${config.text || '🚀'}</div>`;
+                    };
+                    logoContainer.appendChild(img);
+                } else {
+                    // Emoji/Text
+                    const textLogo = document.createElement('div');
+                    textLogo.className = 'custom-logo-text';
+                    textLogo.textContent = logoContent;
+                    logoContainer.appendChild(textLogo);
+                }
+                
+                // Platforms (baris 2+)
+                const platformsDiv = document.getElementById('platforms');
+                platformsDiv.innerHTML = '';
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const parts = lines[i].split(':');
+                    if (parts.length >= 2) {
+                        const platform = parts[0].trim().toLowerCase();
+                        let link = parts[1].replace(/[()]/g, '').trim();
+                        const name = parts[2]?.replace(/[()]/g, '').trim() || platform;
+                        
+                        // Fix link jika ada ()
+                        if (link.includes('(') || link.includes(')')) {
+                            link = link.match(/\$([^)]+)\$/)?.[1] || link;
                         }
                         
-                        // Parse platform mulai baris kedua
-                        platformsDiv.innerHTML = '';
-                        for (let i = 1; i < lines.length; i++) {
-                            const parts = lines[i].split('|').map(s => s.trim());
-                            if (parts.length >= 2) {
-                                const [platform, link, name = ''] = parts;
-                                const platformDiv = createPlatform(platform, link, name);
-                                platformsDiv.appendChild(platformDiv);
-                            }
-                        }
-                    } else {
-                        showNoData();
+                        const platformDiv = document.createElement('a');
+                        platformDiv.href = link;
+                        platformDiv.target = '_blank';
+                        platformDiv.rel = 'noopener noreferrer';
+                        platformDiv.className = `platform ${platform}`;
+                        platformDiv.innerHTML = `
+                            <div class="platform-icon">
+                                <i class="${getIcon(platform)}"></i>
+                            </div>
+                            <div class="platform-info">
+                                <div class="platform-name">${name}</div>
+                                <div class="platform-link">${link}</div>
+                            </div>
+                        `;
+                        platformsDiv.appendChild(platformDiv);
                     }
-                } else {
-                    showNoData();
                 }
+                
             } catch (error) {
                 showNoData();
             }
-        }
-
-        function createPlatform(platform, link, name) {
-            const div = document.createElement('a');
-            div.href = link;
-            div.target = '_blank';
-            div.rel = 'noopener noreferrer';
-            div.className = `platform ${platform}`;
-            
-            const displayName = name || platform.charAt(0).toUpperCase() + platform.slice(1);
-            const icon = getIcon(platform);
-            
-            div.innerHTML = `
-                <div class="platform-icon">
-                    <i class="${icon}"></i>
-                </div>
-                <div class="platform-info">
-                    <div class="platform-name">${displayName}</div>
-                    <div class="platform-link">${link}</div>
-                </div>
-            `;
-            return div;
         }
 
         function getIcon(platform) {
@@ -347,19 +312,15 @@
                 'discord': 'fab fa-discord',
                 'whatsapp': 'fab fa-whatsapp',
                 'telegram': 'fab fa-telegram-plane',
-                'wa': 'fab fa-whatsapp'
+                'wa': 'fab fa-whatsapp',
+                'minecraft': 'fab fa-cubes'
             };
-            return icons[platform.toLowerCase()] || 'fas fa-link';
+            return icons[platform] || 'fas fa-link';
         }
 
         function showNoData() {
-            const platformsDiv = document.getElementById('platforms');
-            platformsDiv.innerHTML = `
-                <div class="no-data">
-                    📢 Link Grup Belum Tersedja<br>
-                    <small>Mohon Bersabar Menunggu Linknya</small>
-                </div>
-            `;
+            document.getElementById('platforms').innerHTML = 
+                '<div class="no-data">📢 Data grup belum tersedia<br><small>Hubungi admin</small></div>';
         }
 
         window.addEventListener('load', loadData);
