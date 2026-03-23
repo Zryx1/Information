@@ -209,15 +209,17 @@
 <body>
     <div class="container">
         <div class="logo-container">
-            <img id="customLogo" class="custom-logo-img" 
-                 src="https://files.catbox.moe/tz9eny.png/70x70/1a1a1a/f39c12?text=👑" alt="Limitlest Logo">
+            <!-- Logo Catbox kamu -->
+            <img class="custom-logo-img" 
+                 src="https://files.catbox.moe/tz9eny.png" 
+                 alt="Limitlest Logo" onload="this.style.opacity=1" style="opacity:0;transition:opacity 0.5s;">
         </div>
         
         <h1>Limitlest</h1>
         <p class="subtitle">Join Discord & WhatsApp Group sekarang!</p>
         
         <div class="platforms">
-            <!-- Discord dengan Logo FontAwesome -->
+            <!-- Discord -->
             <a href="https://discord.gg/2h8Ut7mHJ" target="_blank" class="platform discord" rel="noopener noreferrer">
                 <div class="platform-icon">
                     <i class="fab fa-discord"></i>
@@ -227,8 +229,8 @@
                 </div>
             </a>
             
-            <!-- WhatsApp dengan Logo FontAwesome -->
-            <a href="https://chat.whatsapp.com/CiKAhwQb0nx42v1ZexnAo7?mode=gi_t" target="_blank" class="platform whatsapp" rel="noopener noreferrer">
+            <!-- WhatsApp Group - LINK UDAH MASUK! -->
+            <a href="https://chat.whatsapp.com/CiKAhwQb0nx42v1ZexnAo7" target="_blank" class="platform whatsapp" rel="noopener noreferrer">
                 <div class="platform-icon">
                     <i class="fab fa-whatsapp"></i>
                 </div>
@@ -238,5 +240,12 @@
             </a>
         </div>
     </div>
+
+    <script>
+        // Fade in logo
+        document.querySelector('.custom-logo-img').addEventListener('load', function() {
+            this.style.opacity = '1';
+        });
+    </script>
 </body>
 </html>
