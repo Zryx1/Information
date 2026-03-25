@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limitlest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Limitlest - Klan Coc | Premium Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -15,132 +15,269 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #1a1a1a 0%, #2d2d2d 30%, #f39c12 70%, #e67e22 100%);
-            background-size: 400% 400%;
-            animation: blackYellowGradient 10s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #2a2a2a 70%, #f39c12 100%);
+            background-size: 300% 300%;
+            animation: gradientShift 15s ease infinite;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        @keyframes blackYellowGradient {
+        @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
 
-        body::before {
-            content: '';
+        /* Loading Screen */
+        .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(243,156,18,0.6), transparent 40%),
-                radial-gradient(circle at 75% 75%, rgba(243,156,18,0.4), transparent 40%);
-            animation: glowFloat 15s linear infinite;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .loading-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(243,156,18,0.3);
+            border-top: 4px solid #f39c12;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Cursor Glow */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(243,156,18,0.15) 0%, rgba(243,156,18,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.05s linear;
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
         }
 
-        @keyframes glowFloat {
-            0% { transform: scale(1) translateY(0px); opacity: 0.8; }
-            50% { transform: scale(1.1) translateY(-10px); opacity: 1; }
-            100% { transform: scale(1) translateY(0px); opacity: 0.8; }
+        /* Scroll Snap */
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
         }
 
-        .container {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 2.5rem 2rem;
-            max-width: 420px;
+        section {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        .nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15,15,15,0.85);
+            backdrop-filter: blur(16px);
+            padding: 8px 28px;
+            border-radius: 60px;
+            border: 1px solid rgba(243,156,18,0.5);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(243,156,18,0.2);
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 28px;
+            border-radius: 40px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(243,156,18,0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+        .nav-btn:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+        .nav-btn:hover {
+            color: #f39c12;
+            transform: translateY(-2px);
+        }
+        .nav-btn.active {
+            background: #f39c12;
+            color: #0f0f0f;
+            box-shadow: 0 4px 20px rgba(243,156,18,0.5);
+        }
+
+        #deskripsi, #join {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content {
+            background: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(25px);
+            border-radius: 48px;
+            max-width: 750px;
             width: 90%;
             text-align: center;
-            box-shadow: 
-                0 30px 60px rgba(0,0,0,0.5),
-                0 0 0 1px rgba(243,156,18,0.5),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            position: relative;
-            z-index: 1;
-            animation: fadeInUp 1s ease-out;
-            border: 2px solid rgba(243,156,18,0.7);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(243,156,18,0.4);
+            border: 1px solid rgba(243,156,18,0.3);
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 2.5rem 2.5rem;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .content:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 50px 100px rgba(243,156,18,0.25), 0 0 0 1px rgba(243,156,18,0.8);
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        /* Video Border Container dengan Animasi */
+        .video-border {
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto 1.8rem auto;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #f39c12, #e67e22, #f1c40f, #f39c12);
+            background-size: 300% 300%;
+            animation: borderGlow 4s ease infinite;
+            padding: 4px;
+            box-shadow: 0 20px 40px rgba(243,156,18,0.4);
+            transition: all 0.5s ease;
         }
-
-        .logo-container {
-            margin-bottom: 1.5rem;
+        @keyframes borderGlow {
+            0%, 100% { background-position: 0% 50%; box-shadow: 0 20px 40px rgba(243,156,18,0.4); }
+            50% { background-position: 100% 50%; box-shadow: 0 30px 60px rgba(243,156,18,0.7); }
         }
-
-        .custom-logo-img {
-            width: 70px;
-            height: 70px;
-            border-radius: 18px;
+        .video-border:hover {
+            transform: scale(1.03);
+            animation: borderGlow 1s ease infinite;
+        }
+        .showcase-video {
+            width: 100%;
+            border-radius: 28px;
+            display: block;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
-            box-shadow: 0 12px 30px rgba(243,156,18,0.6);
-            border: 3px solid rgba(243,156,18,0.9);
-            transition: all 0.3s ease;
-            margin-bottom: 0.5rem;
-        }
-
-        .custom-logo-img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 18px 40px rgba(243,156,18,0.8);
+            background-color: #000;
+            transition: transform 0.4s ease;
         }
 
         h1 {
             color: #f39c12;
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 20px rgba(243,156,18,0.8);
-            animation: titleGlow 2s ease-in-out infinite alternate;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(243,156,18,0.5);
+            letter-spacing: -0.5px;
+            animation: titlePulse 3s ease-in-out infinite;
         }
-
-        @keyframes titleGlow {
-            from { text-shadow: 0 0 15px rgba(243,156,18,0.6); }
-            to { text-shadow: 0 0 25px rgba(243,156,18,1); }
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(243,156,18,0.4); }
+            50% { text-shadow: 0 0 40px rgba(243,156,18,0.9); }
         }
 
         .subtitle {
-            color: #ddd;
-            font-size: 1rem;
+            color: #dddddd;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
-            line-height: 1.5;
-            font-weight: 400;
+            font-weight: 500;
+        }
+
+        .desc-text {
+            color: #c0c0c0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 2rem 2rem;
+            border-radius: 32px;
+            border: 1px solid rgba(243,156,18,0.3);
+            margin: 2rem 0;
+            transition: all 0.4s ease;
+        }
+        .desc-text:hover {
+            border-color: rgba(243,156,18,0.7);
+            transform: scale(1.01);
         }
 
         .platforms {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .platform {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            background: rgba(243,156,18,0.15);
-            border: 2px solid rgba(243,156,18,0.5);
-            border-radius: 16px;
-            padding: 1.2rem;
-            color: #fff;
+            gap: 1.5rem;
+            background: rgba(243,156,18,0.12);
+            border: 1.5px solid rgba(243,156,18,0.6);
+            border-radius: 80px;
+            padding: 1rem 2rem;
+            color: white;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            backdrop-filter: blur(8px);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(243,156,18,0.3);
         }
-
         .platform::before {
             content: '';
             position: absolute;
@@ -148,103 +285,239 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.6s;
         }
-
         .platform:hover::before {
             left: 100%;
         }
-
         .platform:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(243,156,18,0.5);
-            border-color: rgba(243,156,18,0.8);
+            transform: translateY(-6px) scale(1.02);
             background: rgba(243,156,18,0.25);
+            border-color: #f39c12;
+            box-shadow: 0 20px 40px rgba(243,156,18,0.3);
         }
-
         .platform-icon {
-            font-size: 1.8rem;
+            font-size: 2rem;
             width: 55px;
             height: 55px;
-            border-radius: 14px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
         }
-
-        .platform.discord .platform-icon {
-            background: linear-gradient(135deg, #5865f2, #4752c4);
-            color: white;
+        .platform:hover .platform-icon {
+            transform: scale(1.1);
         }
-
-        .platform.whatsapp .platform-icon {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white;
-        }
-
-        .platform-info {
-            flex: 1;
-            text-align: left;
-        }
-
+        .platform.whatsapp .platform-icon { background: #25D366; color: white; }
         .platform-name {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.3rem;
+            font-weight: 700;
             color: #fff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
-        @media (max-width: 480px) {
-            .container { padding: 2rem 1.5rem; margin: 1rem; }
-            h1 { font-size: 1.4rem; }
-            .custom-logo-img { width: 60px; height: 60px; }
-            .platform { padding: 1rem; gap: 0.8rem; }
-            .platform-icon { width: 48px; height: 48px; font-size: 1.5rem; }
+        /* Scroll Reveal */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 550px) {
+            .content { padding: 2rem 1.5rem; }
+            h1 { font-size: 1.9rem; }
+            .video-border { max-width: 280px; }
+            .platform { padding: 0.8rem 1.5rem; gap: 1rem; }
+            .platform-icon { width: 45px; height: 45px; font-size: 1.5rem; }
+            .platform-name { font-size: 1rem; }
+            .nav { padding: 5px 16px; gap: 6px; top: 12px; }
+            .nav-btn { padding: 5px 18px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <!-- Logo Catbox kamu -->
-            <img class="custom-logo-img" 
-                 src="https://files.catbox.moe/tz9eny.png" 
-                 alt="Limitlest Logo" onload="this.style.opacity=1" style="opacity:0;transition:opacity 0.5s;">
-        </div>
-        
-        <h1>Limitlest</h1>
-        <p class="subtitle">Join Discord & WhatsApp Group sekarang!</p>
-        
-        <div class="platforms">
-            <!-- Discord -->
-            <a href="https://discord.gg/2h8Ut7mHJ" target="_blank" class="platform discord" rel="noopener noreferrer">
-                <div class="platform-icon">
-                    <i class="fab fa-discord"></i>
-                </div>
-                <div class="platform-info">
-                    <div class="platform-name">Limitlest Discord</div>
-                </div>
-            </a>
-            
-            <!-- WhatsApp Group - LINK UDAH MASUK! -->
-            <a href="https://chat.whatsapp.com/CiKAhwQb0nx42v1ZexnAo7" target="_blank" class="platform whatsapp" rel="noopener noreferrer">
-                <div class="platform-icon">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <div class="platform-info">
-                    <div class="platform-name">Limitlest WA Group</div>
-                </div>
-            </a>
-        </div>
+
+    <div class="loading-screen">
+        <div class="loader"></div>
     </div>
+    <div class="cursor-glow"></div>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav class="nav">
+        <button class="nav-btn active" data-section="deskripsi">Info</button>
+        <button class="nav-btn" data-section="join">Join</button>
+    </nav>
+
+    <section id="deskripsi">
+        <div class="content scroll-reveal">
+            <div class="video-border">
+                <video class="showcase-video" autoplay loop muted playsinline>
+                    <source src="https://files.catbox.moe/w2q6tb.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h1>Limitlest</h1>
+            <p class="subtitle">Klan Clash of Clans Terbaik #2Y9YV9V9</p>
+            <div class="desc-text">
+                <strong>Limitlest</strong> adalah klan Clash of Clans level 15+ dengan tag #2Y9YV9V9.<br>
+                Kami fokus pada war, donation, dan CWL dengan win rate 90%+.<br>
+                Syarat TH9+ (50+ stars), aktif donasi, dan respect member.<br>
+                Join sekarang dan jadi bagian dari family terbaik!
+            </div>
+        </div>
+    </section>
+
+    <section id="join">
+        <div class="content scroll-reveal">
+            <div class="video-border">
+                <video class="showcase-video" autoplay loop muted playsinline>
+                    <source src="https://files.catbox.moe/w2q6tb.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h1>Join Limitlest</h1>
+            <p class="subtitle">Klik untuk join grup resmi!</p>
+            <div class="platforms">
+                <a href="https://chat.whatsapp.com/GuJcjtHK1kk2jGrFarq9AH?mode=gi_t" target="_blank" class="platform whatsapp" rel="noopener noreferrer">
+                    <div class="platform-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="platform-name">WhatsApp Group</div>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // Fade in logo
-        document.querySelector('.custom-logo-img').addEventListener('load', function() {
-            this.style.opacity = '1';
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading-screen').classList.add('hide');
+            }, 800);
+        });
+
+        // Cursor Glow
+        const cursorGlow = document.querySelector('.cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let particleCount = 80;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(243, 156, 18, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+
+        // Navigation
+        const sections = {
+            deskripsi: document.getElementById('deskripsi'),
+            join: document.getElementById('join')
+        };
+        const navBtns = document.querySelectorAll('.nav-btn');
+
+        function setActiveButton(sectionId) {
+            navBtns.forEach(btn => {
+                if(btn.getAttribute('data-section') === sectionId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            sections[sectionId]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setActiveButton(sectionId);
+        }
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const sectionId = btn.getAttribute('data-section');
+                if(sectionId) scrollToSection(sectionId);
+            });
+        });
+
+        // Intersection Observer untuk Active Nav & Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    if(id === 'deskripsi' || id === 'join') setActiveButton(id);
+                    
+                    // Scroll Reveal
+                    const revealElements = entry.target.querySelectorAll('.scroll-reveal');
+                    revealElements.forEach(el => el.classList.add('revealed'));
+                }
+            });
+        }, { threshold: 0.5 });
+
+        Object.values(sections).forEach(section => {
+            if(section) observer.observe(section);
+        });
+
+        // Video Handler
+        const videos = document.querySelectorAll('.showcase-video');
+        videos.forEach(video => {
+            video.style.opacity = '0';
+            video.style.transition = 'opacity 0.8s ease';
+            video.addEventListener('loadeddata', () => {
+                video.style.opacity = '1';
+            });
+            if(video.readyState >= 2) video.style.opacity = '1';
+            video.play().catch(e => console.log('Autoplay:', e));
         });
     </script>
 </body>
